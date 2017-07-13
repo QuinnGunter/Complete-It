@@ -18,6 +18,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     var toDoItems: [NSManagedObject] = []
     
     @IBAction func addTask(_ sender: UIButton) {
+    /*
         let alert = UIAlertController(title: "New Task",
                                       message: "Add a new task",
                                       preferredStyle: .alert)
@@ -42,6 +43,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    */
     }
     
     func save(task: String) {
@@ -175,8 +177,11 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
              
             MGSwipeButton(title: "Move",backgroundColor: .lightGray){
                 (sender: MGSwipeTableCell!) -> Bool in
-                // add code
-            
+                //Move
+               
+                //Save
+                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+                
                 print("Editing")
                 return true
             }]
@@ -196,6 +201,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         cell.textLabel?.text = todo.value(forKeyPath: "task") as? String
         cell.selectionStyle = .none
             return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
     // MARK: - Table view delegate
