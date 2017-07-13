@@ -214,6 +214,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         cell.layer.cornerRadius = 60
         cell.layoutMargins = UIEdgeInsets.init(top: 50, left: 50, bottom: 50, right: 50)
+        cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.textLabel?.textAlignment = .center
+        cell.textLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 21.0)
+        
        
        
         
