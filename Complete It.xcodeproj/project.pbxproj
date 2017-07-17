@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4C027A948E817680DD291D97 /* Pods_Complete_It.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 107DC106E32D309BA204911B /* Pods_Complete_It.framework */; };
 		E828DDDD1F1818E8006BFC9B /* TaskFormControllerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828DDDC1F1818E8006BFC9B /* TaskFormControllerVC.swift */; };
+		E82AD8B21F1D61F000F5B160 /* ScaleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */; };
+		E82AD8B81F1D797300F5B160 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E82AD8B71F1D797300F5B160 /* GoogleService-Info.plist */; };
 		E849233DF8F079CF2EBD905C /* Pods_Complete_ItTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9FE28DDB07EB9EC92B310B /* Pods_Complete_ItTests.framework */; };
 		E87DA5C61F11DC34007F0CEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87DA5C51F11DC34007F0CEE /* AppDelegate.swift */; };
 		E87DA5C81F11DC34007F0CEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87DA5C71F11DC34007F0CEE /* ViewController.swift */; };
@@ -50,6 +52,8 @@
 		BB9FE28DDB07EB9EC92B310B /* Pods_Complete_ItTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complete_ItTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB9FC882FB0ADDEC9AF0998E /* Pods-Complete ItTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complete ItTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complete ItTests/Pods-Complete ItTests.release.xcconfig"; sourceTree = "<group>"; };
 		E828DDDC1F1818E8006BFC9B /* TaskFormControllerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskFormControllerVC.swift; sourceTree = "<group>"; };
+		E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleSegue.swift; sourceTree = "<group>"; };
+		E82AD8B71F1D797300F5B160 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E87DA5C21F11DC34007F0CEE /* Complete It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Complete It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87DA5C51F11DC34007F0CEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E87DA5C71F11DC34007F0CEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,10 +152,12 @@
 				E87DA5F61F11DE11007F0CEE /* ToDoItem.swift */,
 				E828DDDC1F1818E8006BFC9B /* TaskFormControllerVC.swift */,
 				E87DA5C91F11DC34007F0CEE /* Main.storyboard */,
+				E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */,
 				E87DA5CF1F11DC34007F0CEE /* Assets.xcassets */,
 				E87DA5D11F11DC34007F0CEE /* LaunchScreen.storyboard */,
 				E87DA5D41F11DC34007F0CEE /* Info.plist */,
 				E87DA5CC1F11DC34007F0CEE /* Complete_It.xcdatamodeld */,
+				E82AD8B71F1D797300F5B160 /* GoogleService-Info.plist */,
 			);
 			path = "Complete It";
 			sourceTree = "<group>";
@@ -294,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E87DA5D31F11DC34007F0CEE /* LaunchScreen.storyboard in Resources */,
+				E82AD8B81F1D797300F5B160 /* GoogleService-Info.plist in Resources */,
 				E87DA5D01F11DC34007F0CEE /* Assets.xcassets in Resources */,
 				E87DA5CB1F11DC34007F0CEE /* Main.storyboard in Resources */,
 			);
@@ -460,6 +467,7 @@
 			files = (
 				E828DDDD1F1818E8006BFC9B /* TaskFormControllerVC.swift in Sources */,
 				E87DA5CE1F11DC34007F0CEE /* Complete_It.xcdatamodeld in Sources */,
+				E82AD8B21F1D61F000F5B160 /* ScaleSegue.swift in Sources */,
 				E87DA5C81F11DC34007F0CEE /* ViewController.swift in Sources */,
 				E87DA5F71F11DE11007F0CEE /* ToDoItem.swift in Sources */,
 				E87DA5C61F11DC34007F0CEE /* AppDelegate.swift in Sources */,
@@ -616,7 +624,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6294299C05328E23A87763CB /* Pods-Complete It.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = 35YT2A3NRR;
 				INFOPLIST_FILE = "Complete It/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -630,7 +638,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7BB7AD7A67E96B1D16B6FCE0 /* Pods-Complete It.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = 35YT2A3NRR;
 				INFOPLIST_FILE = "Complete It/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -70,7 +70,7 @@
                                 </state>
                                 <connections>
                                     <action selector="addTask:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JQX-d6-DHK"/>
-                                    <segue destination="nk3-7D-LKa" kind="presentation" id="T3m-0r-9Jg"/>
+                                    <segue destination="nk3-7D-LKa" kind="show" id="T3m-0r-9Jg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -125,7 +125,7 @@
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" identifier="toTableView" id="ShP-nM-CWR"/>
+                                    <segue destination="BYZ-38-t0r" kind="custom" identifier="toTableView" customClass="ScaleSegue" customModule="Complete_It" customModuleProvider="target" id="ShP-nM-CWR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EPD-UR-jz6">
@@ -146,6 +146,7 @@
                             <constraint firstItem="TAO-nb-Q6a" firstAttribute="leading" secondItem="TuP-Vc-7Kv" secondAttribute="leadingMargin" id="RMO-ii-mxm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Ync-68-wrg"/>
                     <connections>
                         <outlet property="addTaskField" destination="TAO-nb-Q6a" id="Duf-zV-zj3"/>
                     </connections>

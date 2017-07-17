@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 import MGSwipeTableCell
-
+import Firebase
 
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
@@ -18,6 +18,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     var toDoItems: [NSManagedObject] = []
     
     @IBAction func addTask(_ sender: UIButton) {
+        FIRAnalytics.logEvent(withName: "New_Task_Button_Pressed", parameters: nil)
     /*
         let alert = UIAlertController(title: "New Task",
                                       message: "Add a new task",

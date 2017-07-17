@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class TaskFormControllerVC: UIViewController {
 
@@ -18,6 +19,8 @@ class TaskFormControllerVC: UIViewController {
             
             let textField = addTaskField.text
             self.save(task: textField!)
+            FIRAnalytics.logEvent(withName: "Task_Made", parameters: nil)
+        
             performSegue(withIdentifier: "toTableView", sender: sender)
         
     }
