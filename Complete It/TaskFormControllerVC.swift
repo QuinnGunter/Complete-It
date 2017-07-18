@@ -15,10 +15,13 @@ class TaskFormControllerVC: UIViewController {
     var toDoItems: [NSManagedObject] = []
     @IBOutlet weak var addTaskField: UITextField!
     
+    @IBOutlet weak var addTimeField: UIDatePicker!
+    
     @IBAction func saveButtonTapped(_ sender: Any) {
             
-            let textField = addTaskField.text
-            self.save(task: textField!)
+            let taskField = addTaskField.text
+            let timeField = addTimeField.date
+            self.save(task: taskField!, time: timeField)
             FIRAnalytics.logEvent(withName: "Task_Made", parameters: nil)
         
             performSegue(withIdentifier: "toTableView", sender: sender)
@@ -30,7 +33,7 @@ class TaskFormControllerVC: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    func save(task: String) {
+    func save(task: String, time: Date) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -46,6 +49,7 @@ class TaskFormControllerVC: UIViewController {
         let todo = NSManagedObject(entity: entity,
                                    insertInto: managedContext)
         todo.setValue(task, forKeyPath: "task")
+        todo.setValue(time, forKey: "time")
         
         do {
             try managedContext.save()
@@ -54,6 +58,7 @@ class TaskFormControllerVC: UIViewController {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

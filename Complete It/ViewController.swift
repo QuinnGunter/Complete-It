@@ -47,7 +47,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     */
     }
     
-    func save(task: String) {
+    func save(task: String, time: Date) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -63,6 +63,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let todo = NSManagedObject(entity: entity,
                                      insertInto: managedContext)
         todo.setValue(task, forKeyPath: "task")
+        todo.setValue(time, forKey: "time")
         
         do {
             try managedContext.save()
@@ -111,12 +112,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         if toDoItems.count > 0 {
             return
         }
-        /*
-        toDoItems.append(ToDoItem(text: "feed the cat"))
-        toDoItems.append(ToDoItem(text: "buy eggs"))
-        toDoItems.append(ToDoItem(text: "watch WWDC videos"))
-        toDoItems.append(ToDoItem(text: "rule the Web"))
-         */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -199,7 +194,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         cell.layer.mask = maskLayer
         
         let todo = toDoItems[indexPath.row]
-        cell.textLabel?.text = todo.value(forKeyPath: "task") as? String
+        let task = todo.value(forKeyPath: "task")
+        let time = todo.value(forKey: "time")
+        cell.textLabel?.text = task as? String
+        cell.detailTextLabel?.text = time as? String
         cell.selectionStyle = .none
             return cell
     }
@@ -219,17 +217,9 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 21.0)
         
-       
-       
-        
-        /* //White layer
-        let whiteBorder = UIView()
-        whiteBorder.frame = cell.contentView.bounds
-        whiteBorder.layer.borderWidth = 17
-        whiteBorder.layer.cornerRadius = 24
-        whiteBorder.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
-        cell.contentView.addSubview(whiteBorder)
-       */
+        cell.detailTextLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.detailTextLabel?.textAlignment = .natural
+        cell.detailTextLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 10.0)
         
     }
     

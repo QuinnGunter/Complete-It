@@ -49,7 +49,7 @@
                                 <rect key="frame" x="0.0" y="85" width="375" height="582"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b8N-bR-jIL">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b8N-bR-jIL">
                                         <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b8N-bR-jIL" id="Gd3-j6-GPX">
@@ -128,8 +128,14 @@
                                     <segue destination="BYZ-38-t0r" kind="custom" identifier="toTableView" customClass="ScaleSegue" customModule="Complete_It" customModuleProvider="target" id="ShP-nM-CWR"/>
                                 </connections>
                             </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Xke-Ew-ylH">
+                                <rect key="frame" x="0.0" y="119" width="375" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="522089371.33342499">
+                                    <!--2017-07-18 16:49:31 +0000-->
+                                </date>
+                            </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EPD-UR-jz6">
-                                <rect key="frame" x="163" y="119" width="48" height="36"/>
+                                <rect key="frame" x="163" y="343" width="48" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
@@ -142,13 +148,17 @@
                             <constraint firstItem="TAO-nb-Q6a" firstAttribute="trailing" secondItem="TuP-Vc-7Kv" secondAttribute="trailingMargin" id="7jm-nP-ICX"/>
                             <constraint firstItem="EPD-UR-jz6" firstAttribute="centerX" secondItem="TuP-Vc-7Kv" secondAttribute="centerX" id="Ehr-B1-rjl"/>
                             <constraint firstItem="TAO-nb-Q6a" firstAttribute="top" secondItem="eQY-NC-aIg" secondAttribute="bottom" constant="46" id="Gha-9p-28c"/>
-                            <constraint firstItem="EPD-UR-jz6" firstAttribute="top" secondItem="TAO-nb-Q6a" secondAttribute="bottom" constant="8" id="J0p-bQ-b9S"/>
+                            <constraint firstItem="Xke-Ew-ylH" firstAttribute="top" secondItem="TAO-nb-Q6a" secondAttribute="bottom" constant="8" id="JHZ-Ex-AwN"/>
+                            <constraint firstItem="EPD-UR-jz6" firstAttribute="top" secondItem="Xke-Ew-ylH" secondAttribute="bottom" constant="8" id="QbN-JV-cdx"/>
                             <constraint firstItem="TAO-nb-Q6a" firstAttribute="leading" secondItem="TuP-Vc-7Kv" secondAttribute="leadingMargin" id="RMO-ii-mxm"/>
+                            <constraint firstItem="Xke-Ew-ylH" firstAttribute="leading" secondItem="TuP-Vc-7Kv" secondAttribute="leading" id="p0h-lk-BzI"/>
+                            <constraint firstAttribute="trailing" secondItem="Xke-Ew-ylH" secondAttribute="trailing" id="s9v-Js-q9I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ync-68-wrg"/>
                     <connections>
                         <outlet property="addTaskField" destination="TAO-nb-Q6a" id="Duf-zV-zj3"/>
+                        <outlet property="addTimeField" destination="Xke-Ew-ylH" id="Vms-Sl-elH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZNg-lx-Acf" userLabel="First Responder" sceneMemberID="firstResponder"/>
