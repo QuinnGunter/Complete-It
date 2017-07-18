@@ -28,9 +28,50 @@ class Complete_ItUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testToTaskForm() {
+        
+        let app = XCUIApplication()
+        app.buttons["+"].tap()
+        app.buttons["X"].tap()
+        
     }
     
+    func testAddTask(){
+        
+        let app = XCUIApplication()
+        app.buttons["+"].tap()
+        
+        let addTaskTextField = app.textFields["Add Task"]
+        addTaskTextField.tap()
+        
+        let shiftButton = app.buttons["shift"]
+        shiftButton.tap()
+        addTaskTextField.typeText("Test ")
+        shiftButton.tap()
+        addTaskTextField.typeText("Task")
+        app.buttons["Save"].tap()
+        
+    }
+    
+    func testDeleteTask(){
+        
+        let app = XCUIApplication()
+        app.buttons["+"].tap()
+        
+        let addTaskTextField = app.textFields["Add Task"]
+        addTaskTextField.tap()
+        addTaskTextField.typeText("delete")
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.tap()
+        app.buttons["Save"].tap()
+        
+        let tablesQuery = app.tables
+        tablesQuery.staticTexts["delete"].tap()
+        tablesQuery.buttons["Delete"].tap()
+        
+    }
+    
+    func testCompleteTask(){
+        //Add complete handler
+    }
 }
+
