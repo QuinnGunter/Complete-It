@@ -14,9 +14,12 @@ import Firebase
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var toDoItems: [NSManagedObject] = []
-    
+    @IBAction func segmentedChanged(_ sender: Any) {
+        tableView.reloadData()
+    }
     @IBAction func addTask(_ sender: UIButton) {
         FIRAnalytics.logEvent(withName: "New_Task_Button_Pressed", parameters: nil)
     /*
@@ -142,7 +145,17 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoItems.count
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            return toDoItems.count
+        case 1:
+            return toDoItems.count
+        case 2:
+            return toDoItems.count
+        default:
+            break
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView,
@@ -186,6 +199,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         cell.clipsToBounds = true
         cell.swipeBackgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        cell.selectionStyle = .none
         
         //cell separator
         let maskLayer = CAShapeLayer()
@@ -196,9 +210,21 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let todo = toDoItems[indexPath.row]
         let task = todo.value(forKeyPath: "task")
         let time = todo.value(forKey: "time")
-        cell.textLabel?.text = task as? String
-        cell.detailTextLabel?.text = time as? String
-        cell.selectionStyle = .none
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            cell.textLabel?.text = task as? String
+            cell.detailTextLabel?.text = time as? String
+        case 1:
+            cell.textLabel?.text = task as? String
+            cell.detailTextLabel?.text = time as? String
+        case 2:
+            cell.textLabel?.text = task as? String
+            cell.detailTextLabel?.text = time as? String
+        default:
+            break
+        }
+        
             return cell
     }
     
