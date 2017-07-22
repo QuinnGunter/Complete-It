@@ -14,12 +14,14 @@ import Firebase
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var customSegmentedControl: CustomSegmentedControl!
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var toDoItems: [NSManagedObject] = []
-    @IBAction func segmentedChanged(_ sender: Any) {
+    @IBAction func customSegmentedChanged(_ sender: CustomSegmentedControl) {
         tableView.reloadData()
     }
+    
     @IBAction func addTask(_ sender: UIButton) {
         FIRAnalytics.logEvent(withName: "New_Task_Button_Pressed", parameters: nil)
     /*
@@ -109,7 +111,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         tableView.register(MGSwipeTableCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.rowHeight = 50.0
-        tableView.layer.cornerRadius = 24
+        //tableView.layer.cornerRadius = 24
         tableView.backgroundColor = UIColor.white
 
         if toDoItems.count > 0 {
@@ -145,7 +147,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedSegmentIndex {
         case 0:
             return toDoItems.count
         case 1:
@@ -195,7 +197,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                 return true
             }]
         cell.rightSwipeSettings.transition = .drag
-        cell.layer.cornerRadius = 50
+        cell.layer.cornerRadius = cell.frame.height/2
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         cell.clipsToBounds = true
         cell.swipeBackgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
@@ -204,14 +206,14 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         //cell separator
         let maskLayer = CAShapeLayer()
         let bounds = cell.bounds
-        maskLayer.path = UIBezierPath(roundedRect: CGRect(x: 2, y: 2, width: bounds.width-4, height: bounds.height-4), cornerRadius: 5).cgPath
+        maskLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height-4), cornerRadius: 100).cgPath
         cell.layer.mask = maskLayer
         
         let todo = toDoItems[indexPath.row]
         let task = todo.value(forKeyPath: "task")
         let time = todo.value(forKey: "time")
         
-        switch segmentedControl.selectedSegmentIndex {
+        switch customSegmentedControl.selectedSegmentIndex {
         case 0:
             cell.textLabel?.text = task as? String
             cell.detailTextLabel?.text = time as? String

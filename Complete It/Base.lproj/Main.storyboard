@@ -22,15 +22,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K6n-pU-kOs" customClass="CustomSegmentedControl" customModule="Complete_It" customModuleProvider="target">
+                                <rect key="frame" x="16" y="25" width="343" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="0aa-hC-8lc"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="commaSeparatedButtonTitles" value="Today, Tomorrow, Later"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectorColor">
+                                        <color key="value" red="0.98628610370000003" green="0.37968695159999999" blue="0.34781652689999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="0.98628610370000003" green="0.37968695159999999" blue="0.34781652689999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="customSegmentedChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="wHS-RS-2TM"/>
+                                </connections>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QHH-Kr-sgg">
-                                <rect key="frame" x="0.0" y="85" width="375" height="582"/>
+                                <rect key="frame" x="16" y="110" width="343" height="557"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b8N-bR-jIL">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="28" width="343" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b8N-bR-jIL" id="Gd3-j6-GPX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -51,37 +76,23 @@
                                     <segue destination="nk3-7D-LKa" kind="show" id="T3m-0r-9Jg"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Vmr-4a-DCu">
-                                <rect key="frame" x="16" y="28" width="343" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="Qar-cy-VJa"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Today"/>
-                                    <segment title="Tomorrow"/>
-                                    <segment title="Later"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentedChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Yoh-Sa-IjR"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="top" secondItem="Vmr-4a-DCu" secondAttribute="bottom" constant="22" id="0X9-Sm-yQu"/>
+                            <constraint firstItem="K6n-pU-kOs" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="7Ah-fk-SDX"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="QHH-Kr-sgg" secondAttribute="bottom" id="G68-Yi-wTO"/>
                             <constraint firstAttribute="bottomMargin" secondItem="cwX-t6-bcy" secondAttribute="bottom" constant="25" id="MJG-CH-Tb4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cwX-t6-bcy" secondAttribute="trailing" constant="149" id="QMG-Br-m2L"/>
-                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="SJk-Cv-ElV"/>
-                            <constraint firstAttribute="trailing" secondItem="QHH-Kr-sgg" secondAttribute="trailing" id="Zxn-Tg-Ftm"/>
+                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="trailing" secondItem="K6n-pU-kOs" secondAttribute="trailing" id="Sfq-eX-cdJ"/>
+                            <constraint firstItem="K6n-pU-kOs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="VrX-2w-srx"/>
+                            <constraint firstItem="K6n-pU-kOs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="b65-kL-XCj"/>
                             <constraint firstItem="cwX-t6-bcy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="149" id="pyB-F2-HgL"/>
-                            <constraint firstItem="Vmr-4a-DCu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="rp3-R0-wS9"/>
-                            <constraint firstItem="Vmr-4a-DCu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="uSa-Y9-ZV0"/>
-                            <constraint firstItem="Vmr-4a-DCu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ypP-eX-Weh"/>
+                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="leading" secondItem="K6n-pU-kOs" secondAttribute="leading" id="vDx-d1-3W8"/>
+                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="top" secondItem="K6n-pU-kOs" secondAttribute="bottom" constant="5" id="yq1-up-qTl"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="segmentedControl" destination="Vmr-4a-DCu" id="TSa-a6-lyf"/>
+                        <outlet property="customSegmentedControl" destination="K6n-pU-kOs" id="loh-jU-bbS"/>
                         <outlet property="tableView" destination="QHH-Kr-sgg" id="xSs-0O-btm"/>
                     </connections>
                 </viewController>
