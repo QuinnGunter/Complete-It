@@ -165,13 +165,20 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MGSwipeTableCell
         
         //configure left buttons
-        cell.leftButtons = [MGSwipeButton(title: "", icon: UIImage(named:"check.png"), backgroundColor: .green),
-                            MGSwipeButton(title: "", icon: UIImage(named:"fav.png"), backgroundColor: .blue)]
+        cell.leftButtons = [MGSwipeButton(title: "Complete", backgroundColor: #colorLiteral(red: 0.2474539252, green: 0.8585546875, blue: 0.5740827903, alpha: 1)){
+            (sender: MGSwipeTableCell!) -> Bool in
+                let lineView = UIView(frame: CGRect(x: 0, y: cell.contentView.bounds.size.height/2, width: cell.contentView.bounds.size.width, height: 5))
+                lineView.backgroundColor = UIColor.lightGray
+                lineView.autoresizingMask = UIViewAutoresizing(rawValue: 0x3f)
+                cell.contentView.addSubview(lineView)
+            return true
+            
+            }]
         cell.leftSwipeSettings.transition = .drag
         
         //configure right buttons
         cell.rightButtons =
-            [MGSwipeButton(title: "Delete", backgroundColor: .red) {
+            [MGSwipeButton(title: "Delete", backgroundColor: #colorLiteral(red: 0.9606611037, green: 0.2751472445, blue: 0.2812705144, alpha: 1)) {
                 (sender: MGSwipeTableCell!) -> Bool in
                 //remove core data
                 let task = self.toDoItems[indexPath.row]
