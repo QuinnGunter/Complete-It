@@ -15,11 +15,22 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var customSegmentedControl: CustomSegmentedControl!
+    @IBOutlet weak var editbutton: UIBarButtonItem!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var toDoItems: [NSManagedObject] = []
     @IBAction func customSegmentedChanged(_ sender: CustomSegmentedControl) {
         tableView.reloadData()
+    }
+    
+    @IBAction func startEditing(_ sender: UIBarButtonItem) {
+       tableView.isEditing = !tableView.isEditing
+        switch tableView.isEditing {
+        case true:
+            editbutton.title = "Done"
+        case false:
+            editbutton.title = "Edit"
+        }
     }
     
     @IBAction func addTask(_ sender: UIButton) {
@@ -117,6 +128,11 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         if toDoItems.count > 0 {
             return
         }
+        
+        self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
+        self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .bottom)
+        self.navigationController?.toolbar.shadowImage(forToolbarPosition: .bottom)
+        self.navigationController?.toolbar.alpha = 0.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -191,18 +207,20 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             
                 print("Convenience callback for swipe buttons!")
             return true
-            },
-             
-            MGSwipeButton(title: "Move",backgroundColor: .lightGray){
-                (sender: MGSwipeTableCell!) -> Bool in
-                //Move
-               
-                //Save
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-                
-                print("Editing")
-                return true
-            }]
+//            },
+//             
+//            MGSwipeButton(title: "Move",backgroundColor: .lightGray){
+//                (sender: MGSwipeTableCell!) -> Bool in
+//                //Move
+//                tableView.isEditing = !tableView.isEditing
+//                
+//
+//                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+//                
+//                print("Editing")
+//                return true
+//            
+                }]
         cell.rightSwipeSettings.transition = .drag
         cell.layer.cornerRadius = cell.frame.height/2
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
@@ -239,6 +257,19 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let item = toDoItems[sourceIndexPath.row]
+        toDoItems.remove(at: sourceIndexPath.row)
+        toDoItems.insert(item, at: destinationIndexPath.row)
+        //save move in core data
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.none
     }
     
     // MARK: - Table view delegate
