@@ -17,6 +17,7 @@
 		E85697BB1F2FE27E004B6E4B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85697BA1F2FE27E004B6E4B /* TodayViewController.swift */; };
 		E85697BE1F2FE27E004B6E4B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E85697BC1F2FE27E004B6E4B /* MainInterface.storyboard */; };
 		E85697C21F2FE27E004B6E4B /* CompleteItWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E85697B61F2FE27E004B6E4B /* CompleteItWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E86878831F3386580053B688 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86878821F3386580053B688 /* DetailVC.swift */; };
 		E87DA5C61F11DC34007F0CEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87DA5C51F11DC34007F0CEE /* AppDelegate.swift */; };
 		E87DA5C81F11DC34007F0CEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87DA5C71F11DC34007F0CEE /* ViewController.swift */; };
 		E87DA5CB1F11DC34007F0CEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E87DA5C91F11DC34007F0CEE /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 		E85697BA1F2FE27E004B6E4B /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		E85697BD1F2FE27E004B6E4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		E85697BF1F2FE27E004B6E4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E86878821F3386580053B688 /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		E87DA5C21F11DC34007F0CEE /* Complete It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Complete It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87DA5C51F11DC34007F0CEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E87DA5C71F11DC34007F0CEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				E87DA5F61F11DE11007F0CEE /* ToDoItem.swift */,
 				E828DDDC1F1818E8006BFC9B /* TaskFormControllerVC.swift */,
 				E87DA5C91F11DC34007F0CEE /* Main.storyboard */,
+				E86878821F3386580053B688 /* DetailVC.swift */,
 				E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */,
 				E84AEA611F22A34600FA2C31 /* CustomSegmentedControl.swift */,
 				E87DA5CF1F11DC34007F0CEE /* Assets.xcassets */,
@@ -565,6 +568,7 @@
 				E87DA5CE1F11DC34007F0CEE /* Complete_It.xcdatamodeld in Sources */,
 				E82AD8B21F1D61F000F5B160 /* ScaleSegue.swift in Sources */,
 				E87DA5C81F11DC34007F0CEE /* ViewController.swift in Sources */,
+				E86878831F3386580053B688 /* DetailVC.swift in Sources */,
 				E87DA5F71F11DE11007F0CEE /* ToDoItem.swift in Sources */,
 				E87DA5C61F11DC34007F0CEE /* AppDelegate.swift in Sources */,
 			);
@@ -857,6 +861,7 @@
 				E85697C41F2FE27E004B6E4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E87DA5BD1F11DC34007F0CEE /* Build configuration list for PBXProject "Complete It" */ = {
 			isa = XCConfigurationList;

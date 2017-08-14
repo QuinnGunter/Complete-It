@@ -11,8 +11,9 @@ import CoreData
 import MGSwipeTableCell
 import Firebase
 
-class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
-
+class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate {
+    private var collapseDetailViewController = true
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var customSegmentedControl: CustomSegmentedControl!
     @IBOutlet weak var editbutton: UIBarButtonItem!
@@ -35,32 +36,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     
     @IBAction func addTask(_ sender: UIButton) {
         FIRAnalytics.logEvent(withName: "New_Task_Button_Pressed", parameters: nil)
-    /*
-        let alert = UIAlertController(title: "New Task",
-                                      message: "Add a new task",
-                                      preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) {
-            [unowned self] action in
-            
-            guard let textField = alert.textFields?.first,
-                let taskTosave = textField.text else {
-                    return
-            }
-            
-            self.save(task: taskTosave)
-            self.tableView.reloadData()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
-        
-        alert.addTextField()
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-    */
     }
     
     func save(task: String, time: Date) {
@@ -88,35 +63,11 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
-    func remove() {
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let entity =
-            NSEntityDescription.entity(forEntityName: "Todo",
-                                       in: managedContext)!
-        let todo = NSManagedObject(entity: entity,
-                                   insertInto: managedContext)
-        
-        
-        do {
-            managedContext.delete(todo)
-           try managedContext.save()
-            
-        } catch let error as NSError {
-            print("Could not delete. \(error), \(error.userInfo)")
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        splitViewController?.delegate = self
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MGSwipeTableCell.self, forCellReuseIdentifier: "cell")
@@ -146,6 +97,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let managedContext =
             appDelegate.persistentContainer.viewContext
         
+        //presicate object for date objecte created by the library
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Todo")
         
@@ -203,23 +155,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                 //remove from tableview
                 self.toDoItems.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.remove()
+
             
                 print("Convenience callback for swipe buttons!")
             return true
-//            },
-//             
-//            MGSwipeButton(title: "Move",backgroundColor: .lightGray){
-//                (sender: MGSwipeTableCell!) -> Bool in
-//                //Move
-//                tableView.isEditing = !tableView.isEditing
-//                
-//
-//                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-//                
-//                print("Editing")
-//                return true
-//            
                 }]
         cell.rightSwipeSettings.transition = .drag
         cell.layer.cornerRadius = cell.frame.height/2
@@ -237,6 +176,9 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let todo = toDoItems[indexPath.row]
         let task = todo.value(forKeyPath: "task")
         let time = todo.value(forKey: "time")
+        
+        //TableView segment
+        //calculate date requests
         
         switch customSegmentedControl.selectedSegmentIndex {
         case 0:
@@ -293,5 +235,14 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         return 120.0
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        collapseDetailViewController = false
+    }
+    
+    // MARK: - UISplitViewControllerDelegate
+    
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
+        return collapseDetailViewController
+    }
 }
 

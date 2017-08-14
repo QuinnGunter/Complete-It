@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wAI-6q-e8G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="g33-ou-eRz">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QHH-Kr-sgg">
-                                <rect key="frame" x="16" y="149" width="343" height="474"/>
+                                <rect key="frame" x="16" y="144" width="343" height="479"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b8N-bR-jIL">
@@ -33,6 +33,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="VRD-Fd-dNG" kind="showDetail" id="bxB-12-UgI"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -74,16 +77,14 @@
                             <constraint firstItem="QHH-Kr-sgg" firstAttribute="trailing" secondItem="K6n-pU-kOs" secondAttribute="trailing" id="Sfq-eX-cdJ"/>
                             <constraint firstItem="K6n-pU-kOs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="VrX-2w-srx"/>
                             <constraint firstItem="QHH-Kr-sgg" firstAttribute="leading" secondItem="K6n-pU-kOs" secondAttribute="leading" id="vDx-d1-3W8"/>
-                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="top" secondItem="K6n-pU-kOs" secondAttribute="bottom" constant="5" id="yq1-up-qTl"/>
+                            <constraint firstItem="QHH-Kr-sgg" firstAttribute="top" secondItem="K6n-pU-kOs" secondAttribute="bottom" id="yq1-up-qTl"/>
                         </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Osy-a0-3DC"/>
                         <barButtonItem style="plain" systemItem="add" id="OqR-5J-Q0K">
                             <connections>
-                                <segue destination="nk3-7D-LKa" kind="popoverPresentation" popoverAnchorBarButtonItem="OqR-5J-Q0K" id="n3I-8f-GQx">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
+                                <segue destination="nk3-7D-LKa" kind="push" id="n3I-8f-GQx"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="JPn-ie-Czg"/>
@@ -124,16 +125,8 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaY-HK-nly">
-                                <rect key="frame" x="16" y="20" width="32" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <state key="normal" title="X">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Xke-Ew-ylH">
                                 <rect key="frame" x="0.0" y="119" width="375" height="216"/>
                                 <date key="date" timeIntervalSinceReferenceDate="522089371.33342499">
@@ -170,7 +163,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZNg-lx-Acf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1932" y="138.98050974512745"/>
+            <point key="canvasLocation" x="2071" y="139"/>
+        </scene>
+        <!--DetailVC-->
+        <scene sceneID="jZV-MT-ztJ">
+            <objects>
+                <viewController id="VRD-Fd-dNG" customClass="DetailVC" customModule="Complete_It" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ROZ-sM-zww"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hik-MB-FzL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kKI-HZ-Dvg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qb2-sz-kfQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8VV-0F-YT5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="919"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="eyV-ce-G0c">
+            <objects>
+                <splitViewController id="g33-ou-eRz" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="wAI-6q-e8G" kind="relationship" relationship="masterViewController" id="LEh-cG-Hvs"/>
+                        <segue destination="VRD-Fd-dNG" kind="relationship" relationship="detailViewController" id="JNX-bw-nnP"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ihg-uh-qIR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-871" y="602"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rdd-mR-pPk">
@@ -195,4 +220,8 @@
             <point key="canvasLocation" x="140" y="138.98050974512745"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="LEh-cG-Hvs"/>
+        <segue reference="bxB-12-UgI"/>
+    </inferredMetricsTieBreakers>
 </document>
