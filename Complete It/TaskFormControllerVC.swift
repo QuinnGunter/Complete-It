@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import CloudKit
 
 class TaskFormControllerVC: UIViewController {
 
@@ -21,9 +22,25 @@ class TaskFormControllerVC: UIViewController {
             
             let taskField = addTaskField.text
             let timeField = addTimeField.date
+        //Save to CoreData
             self.save(task: taskField!, time: timeField)
-            FIRAnalytics.logEvent(withName: "Task_Made", parameters: nil)
         
+        //Save iCloud
+        if addTaskField?.text != "" {
+            let newTask = CKRecord(recordType: "Task")
+            newTask["content"] = addTaskField?.text as CKRecordValue?
+            
+            let privateDatabase = CKContainer.default().privateCloudDatabase
+            privateDatabase.save(newTask, completionHandler: { (record: CKRecord?, error: Error?) in
+                if error == nil {
+                    print("Task saved")
+                } else {
+                    print("Error: \(error.debugDescription)")
+                }
+            })
+        }
+        
+            FIRAnalytics.logEvent(withName: "Task_Made", parameters: nil)
             performSegue(withIdentifier: "toTableView", sender: sender)
         
     }

@@ -10,9 +10,11 @@ import UIKit
 import CoreData
 import MGSwipeTableCell
 import Firebase
+import SwiftDate
+import CloudKit
 
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate {
-    private var collapseDetailViewController = true
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var customSegmentedControl: CustomSegmentedControl!
@@ -76,6 +78,9 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         //tableView.layer.cornerRadius = 24
         tableView.backgroundColor = UIColor.white
 
+        //Load iCloud 
+        
+        
         if toDoItems.count > 0 {
             return
         }
@@ -155,7 +160,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                 //remove from tableview
                 self.toDoItems.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
-
+                //Remove from iCloud
             
                 print("Convenience callback for swipe buttons!")
             return true
@@ -220,7 +225,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                    forRowAt indexPath: IndexPath) {
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         cell.layer.cornerRadius = 60
-        cell.layoutMargins = UIEdgeInsets.init(top: 50, left: 50, bottom: 50, right: 50)
+        //cell.layoutMargins = UIEdgeInsets.init(top: 50, left: 50, bottom: 50, right: 50)
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont(name:"HelveticaNeue-Bold", size: 21.0)
@@ -235,14 +240,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         return 120.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        collapseDetailViewController = false
-    }
+   
     
     // MARK: - UISplitViewControllerDelegate
-    
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
-        return collapseDetailViewController
-    }
+
+ 
 }
 

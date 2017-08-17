@@ -9,8 +9,7 @@
 import UIKit
 
 class DetailVC: UIViewController, UISplitViewControllerDelegate {
-
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
