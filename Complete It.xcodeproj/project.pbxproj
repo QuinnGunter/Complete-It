@@ -13,7 +13,6 @@
 		E82AD8B81F1D797300F5B160 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E82AD8B71F1D797300F5B160 /* GoogleService-Info.plist */; };
 		E849233DF8F079CF2EBD905C /* Pods_Complete_ItTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB9FE28DDB07EB9EC92B310B /* Pods_Complete_ItTests.framework */; };
 		E84AEA621F22A34600FA2C31 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84AEA611F22A34600FA2C31 /* CustomSegmentedControl.swift */; };
-		E852C1CA1F439EB4008E45BD /* GlobalSplitViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E852C1C91F439EB4008E45BD /* GlobalSplitViewControler.swift */; };
 		E85697B81F2FE27E004B6E4B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E85697B71F2FE27E004B6E4B /* NotificationCenter.framework */; };
 		E85697BB1F2FE27E004B6E4B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85697BA1F2FE27E004B6E4B /* TodayViewController.swift */; };
 		E85697BE1F2FE27E004B6E4B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E85697BC1F2FE27E004B6E4B /* MainInterface.storyboard */; };
@@ -84,7 +83,6 @@
 		E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleSegue.swift; sourceTree = "<group>"; };
 		E82AD8B71F1D797300F5B160 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E84AEA611F22A34600FA2C31 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
-		E852C1C91F439EB4008E45BD /* GlobalSplitViewControler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalSplitViewControler.swift; sourceTree = "<group>"; };
 		E85697B61F2FE27E004B6E4B /* CompleteItWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CompleteItWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85697B71F2FE27E004B6E4B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		E85697BA1F2FE27E004B6E4B /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 				E828DDDC1F1818E8006BFC9B /* TaskFormControllerVC.swift */,
 				E87DA5C91F11DC34007F0CEE /* Main.storyboard */,
 				E86878821F3386580053B688 /* DetailVC.swift */,
-				E852C1C91F439EB4008E45BD /* GlobalSplitViewControler.swift */,
 				E82AD8B11F1D61F000F5B160 /* ScaleSegue.swift */,
 				E84AEA611F22A34600FA2C31 /* CustomSegmentedControl.swift */,
 				E87DA5CF1F11DC34007F0CEE /* Assets.xcassets */,
@@ -579,7 +576,6 @@
 			files = (
 				E84AEA621F22A34600FA2C31 /* CustomSegmentedControl.swift in Sources */,
 				E828DDDD1F1818E8006BFC9B /* TaskFormControllerVC.swift in Sources */,
-				E852C1CA1F439EB4008E45BD /* GlobalSplitViewControler.swift in Sources */,
 				E87DA5CE1F11DC34007F0CEE /* Complete_It.xcdatamodeld in Sources */,
 				E82AD8B21F1D61F000F5B160 /* ScaleSegue.swift in Sources */,
 				E87DA5C81F11DC34007F0CEE /* ViewController.swift in Sources */,

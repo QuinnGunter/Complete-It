@@ -37,7 +37,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     @IBAction func addTask(_ sender: UIButton) {
-        FIRAnalytics.logEvent(withName: "New_Task_Button_Pressed", parameters: nil)
+        Analytics.logEvent("New_Task_Button_Pressed", parameters: nil)
     }
     
     func save(task: String, time: Date) {
@@ -68,8 +68,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        splitViewController?.delegate = self
-        
+    
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MGSwipeTableCell.self, forCellReuseIdentifier: "cell")

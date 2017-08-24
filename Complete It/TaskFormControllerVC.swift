@@ -40,7 +40,7 @@ class TaskFormControllerVC: UIViewController {
             })
         }
         
-            FIRAnalytics.logEvent(withName: "Task_Made", parameters: nil)
+            Analytics.logEvent("Task_Made", parameters: nil)
             performSegue(withIdentifier: "toTableView", sender: sender)
         
     }

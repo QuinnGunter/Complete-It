@@ -11,10 +11,10 @@ import CoreData
 import Firebase
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,15 +22,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearace.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationBarAppearace.shadowImage = UIImage()
         
-        let toolBarAppearance = UIToolbar.appearance()
+        //let toolBarAppearance = UIToolbar.appearance()
         //toolBarAppearance.isTranslucent = true
+        let splitViewController = window!.rootViewController as! UISplitViewController
+        splitViewController.delegate = self
         
         
-        
-        FIRApp.configure()
+        FirebaseApp.configure()
         return true
     }
 
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
+        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
+        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailVC else { return false }
+        if topAsDetailController.taskItem == nil {
+            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+            return true
+        }
+        return false
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -100,6 +110,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
 
