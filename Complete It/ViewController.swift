@@ -90,6 +90,32 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         self.navigationController?.toolbar.alpha = 0.0
     }
     
+    func fetchTasks(date: Date) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //presicate object for date objecte created by the library
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Todo")
+        
+        
+        let predicate = NSPredicate(format: "time > %@", date as NSDate)
+        
+        fetchRequest.predicate = predicate
+        
+        
+        do {
+            toDoItems = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
