@@ -10,11 +10,11 @@ import UIKit
 import CoreData
 import MGSwipeTableCell
 import Firebase
-import SwiftDate
 import CloudKit
+import AFDateHelper
+import Seam3
 
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate {
-    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var customSegmentedControl: CustomSegmentedControl!
@@ -22,8 +22,10 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var toDoItems: [NSManagedObject] = []
+    
     @IBAction func customSegmentedChanged(_ sender: CustomSegmentedControl) {
-        tableView.reloadData()
+        segmentedControlIndexChanged(index: sender.selectedSegmentIndex)
+//        tableView.reloadData()
     }
     
     @IBAction func startEditing(_ sender: UIBarButtonItem) {
@@ -77,6 +79,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         //tableView.layer.cornerRadius = 24
         tableView.backgroundColor = UIColor.white
 
+        
         //Load iCloud 
         
         
@@ -90,7 +93,9 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         self.navigationController?.toolbar.alpha = 0.0
     }
     
+    
     func fetchTasks(date: Date) {
+       
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -116,6 +121,48 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         }
     }
     
+    func segmentedControlIndexChanged(index: Int) {
+        let predicate: NSPredicate
+        
+        if (index == 0) { // due today
+            let date = NSDate()
+            predicate = NSPredicate(format: "time <= %@", date)
+        } else if (index == 1) { // due tomorrow
+            let date = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+            predicate = NSPredicate(format: "time <= %@", NSDate(timeIntervalSince1970: (date?.timeIntervalSince1970)!))
+        } else { // due later
+            let date = Calendar.current.date(byAdding: .day, value: 2, to: Date())
+            predicate = NSPredicate(format: "time >= %@", NSDate(timeIntervalSince1970: (date?.timeIntervalSince1970)!))
+        }
+        
+        toDoItems = tasksMatching(predicate: predicate)
+        tableView.reloadData()
+    }
+    
+    func tasksMatching(predicate: NSPredicate) -> [NSManagedObject] {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //presicate object for date objecte created by the library
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Todo")
+        fetchRequest.predicate = predicate
+        
+        do {
+            toDoItems = try managedContext.fetch(fetchRequest)
+            return toDoItems
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return []
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -130,6 +177,13 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         //presicate object for date objecte created by the library
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Todo")
+//        fetchRequest.predicate =
+        
+//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"day" ascending:NO];
+        let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
         
         do {
             toDoItems = try managedContext.fetch(fetchRequest)
@@ -235,9 +289,16 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let item = toDoItems[sourceIndexPath.row]
         toDoItems.remove(at: sourceIndexPath.row)
         toDoItems.insert(item, at: destinationIndexPath.row)
+        
         //save move in core data
+        var order = 0
         
+        for toDoItem in toDoItems {
+            toDoItem.setValue(order, forKey: "orderPosition")
+            order = order + 1
+        }
         
+        // save to Core Data.
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
