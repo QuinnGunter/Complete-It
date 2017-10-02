@@ -29,9 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let splitViewController = window!.rootViewController as! UISplitViewController
         splitViewController.delegate = self
         
-        let container = self.persistentContainer
-        self.smStore = container.persistentStoreCoordinator.persistentStores.first as? SMStore
-        
         FirebaseApp.configure()
         return true
     }
@@ -102,6 +99,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
+    
+    // Mark: - Device record
+    
+    func setupDeviceRecord() -> Todo?{
+        
+        let moc = self.persistentContainer.viewContext
+        
+        let deviceFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Todo")
+        
+        let deviceID = UIDevice.current.identifierForVendor!.uuidString
+        
+        let predicate = NSPredicate(format: "task == %@", deviceID)
+        
+        deviceFetch.predicate = predicate
+        
+        var fetchedDevice: Todo? = nil
+        
+        do {
+            if let fetchedDevices = try moc.fetch(deviceFetch) as? [Todo] {
+                if let device = fetchedDevices.first {
+                    fetchedDevice = device
+                    print("Retrieved task \(fetchedDevice!.task!)")
+                    let moid = fetchedDevice!.objectID
+                    print("moid=\(moid)")
+                }
+            }
+        } catch {}
+        
+        return fetchedDevice
+    }
 
     // MARK: - Remote notifications
     
@@ -115,7 +142,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Received push")
+        
         self.smStore?.handlePush(userInfo: userInfo)
+        
         completionHandler(.newData)
     }
     

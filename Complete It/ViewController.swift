@@ -4,7 +4,7 @@
 //
 //  Created by Quintin Gunter on 7/8/17.
 //  Copyright © 2017 Quintin Gunter. All rights reserved.
-//
+//  Use
 
 import UIKit
 import CoreData
@@ -21,6 +21,8 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var editbutton: UIBarButtonItem!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var managedObjectContext: NSManagedObjectContext? = nil
+    
     var toDoItems: [NSManagedObject] = []
     
     @IBAction func customSegmentedChanged(_ sender: CustomSegmentedControl) {
@@ -80,8 +82,31 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         tableView.backgroundColor = UIColor.white
 
         
-        //Load iCloud 
+        //Load Seam
+        //self.loadDataSeam()
+        let container = CKContainer.default()
+        let privateData = container.privateCloudDatabase
         
+        
+        let query = CKQuery(recordType: "Task", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        privateData.perform(query, inZoneWith: nil) { results, error in
+            if error == nil { // There is no error
+                for task in results! {
+                    let newTask = Task
+                    newTask.content = task["Content"] as! String
+                    newTask.time = task["Time"] as! String
+                    
+                    self.objects.append(newTask)
+                    
+                    DispatchQueue.main.async(execute: { () -> Void in
+                        self.tableView.reloadData()
+                    })
+                }
+            }
+            else {
+                print("error query")
+            }
+        }
         
         if toDoItems.count > 0 {
             return
@@ -119,6 +144,26 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    func loadDataSeam() {
+        
+        
+        let fetchRequest = Todo.fetchRequest() as NSFetchRequest<Todo>
+        
+        
+        let sortDescriptor = NSSortDescriptor(key: "time", ascending: false)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        do {
+            if let todo = try self.managedObjectContext?.fetch(fetchRequest) {
+                self.toDoItems = todo
+            }
+            
+            self.tableView.reloadData()
+            
+        } catch {}
     }
     
     func segmentedControlIndexChanged(index: Int) {
@@ -215,6 +260,8 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MGSwipeTableCell
+        //load cloud seam
+        self.loadDataSeam()
         
         //configure left buttons
         cell.leftButtons = [MGSwipeButton(title: "Complete", backgroundColor: #colorLiteral(red: 0.2474539252, green: 0.8585546875, blue: 0.5740827903, alpha: 1)){
