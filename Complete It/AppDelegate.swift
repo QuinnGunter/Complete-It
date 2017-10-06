@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import Seam3
+import Instabug
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -29,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let splitViewController = window!.rootViewController as! UISplitViewController
         splitViewController.delegate = self
         
+        // Validate Cloud Kit And Sync
+        self.validateCloudKitAndSync {}
+        
+        Instabug.start(withToken: "28281d9d8f07cec721b70865ebe6fa4e", invocationEvent: .shake)
         FirebaseApp.configure()
         return true
     }
@@ -100,35 +105,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         self.saveContext()
     }
     
-    // Mark: - Device record
-    
-    func setupDeviceRecord() -> Todo?{
-        
-        let moc = self.persistentContainer.viewContext
-        
-        let deviceFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Todo")
-        
-        let deviceID = UIDevice.current.identifierForVendor!.uuidString
-        
-        let predicate = NSPredicate(format: "task == %@", deviceID)
-        
-        deviceFetch.predicate = predicate
-        
-        var fetchedDevice: Todo? = nil
-        
-        do {
-            if let fetchedDevices = try moc.fetch(deviceFetch) as? [Todo] {
-                if let device = fetchedDevices.first {
-                    fetchedDevice = device
-                    print("Retrieved task \(fetchedDevice!.task!)")
-                    let moid = fetchedDevice!.objectID
-                    print("moid=\(moid)")
-                }
-            }
-        } catch {}
-        
-        return fetchedDevice
-    }
 
     // MARK: - Remote notifications
     

@@ -83,16 +83,18 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
 
         
         //Load Seam
-        //self.loadDataSeam()
+        self.loadDataSeam()
+        /*
         let container = CKContainer.default()
         let privateData = container.privateCloudDatabase
         
         
         let query = CKQuery(recordType: "Task", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        
         privateData.perform(query, inZoneWith: nil) { results, error in
             if error == nil { // There is no error
                 for task in results! {
-                    let newTask = Task
+                    let newTask = CKRecord(recordType: "Task")
                     newTask.content = task["Content"] as! String
                     newTask.time = task["Time"] as! String
                     
@@ -107,6 +109,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                 print("error query")
             }
         }
+         */
         
         if toDoItems.count > 0 {
             return
@@ -157,9 +160,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            if let todo = try self.managedObjectContext?.fetch(fetchRequest) {
-                self.toDoItems = todo
-            }
+            try self.toDoItems = self.context.fetch(fetchRequest)
             
             self.tableView.reloadData()
             
@@ -372,11 +373,5 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
     }
-    
-   
-    
-    // MARK: - UISplitViewControllerDelegate
-
- 
 }
 

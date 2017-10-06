@@ -15,6 +15,8 @@ import Seam3
 class TaskFormControllerVC: UIViewController {
 
     var toDoItems: [NSManagedObject] = []
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var managedObjectContext: NSManagedObjectContext? = nil
     
     @IBOutlet weak var addTaskField: UITextField!
@@ -28,10 +30,10 @@ class TaskFormControllerVC: UIViewController {
         
         //Save to CoreData
             self.save(task: taskField!, time: timeField)
-        //saveCloudKitValuesToCoreData(results: <#T##[CKRecord]#>)
+        
         
         //Save iCloud
-        
+        /*
         if addTaskField?.text != "" {
             let newTask = CKRecord(recordType: "Task")
             newTask["content"] = addTaskField?.text as CKRecordValue?
@@ -46,14 +48,13 @@ class TaskFormControllerVC: UIViewController {
                 }
             })
         }
- 
+         */
         //Seam Save
         
-        /*
-        if let context = self.managedObjectContext {
+        
             let newTask = Todo(context: context)
-            let taskField = addTaskField.text
-            let timeField = addTimeField.date
+           // let taskField = addTaskField.text
+            //let timeField = addTimeField.date
             // If appropriate, configure the new managed object.
             newTask.task = taskField
             newTask.time = timeField as NSDate
@@ -67,8 +68,8 @@ class TaskFormControllerVC: UIViewController {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
-        }
-        */
+        
+        
             Analytics.logEvent("Task_Made", parameters: nil)
             performSegue(withIdentifier: "toTableView", sender: sender)
         
