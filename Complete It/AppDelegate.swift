@@ -14,7 +14,7 @@ import Instabug
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
-
+    
     var window: UIWindow?
     //Seam
     var smStore: SMStore?
@@ -30,10 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let splitViewController = window!.rootViewController as! UISplitViewController
         splitViewController.delegate = self
         
-        // Validate Cloud Kit And Sync
+        // Seam3
+        let container = self.persistentContainer
         self.validateCloudKitAndSync {}
+        self.smStore = container.persistentStoreCoordinator.persistentStores.first as? SMStore
         
         Instabug.start(withToken: "28281d9d8f07cec721b70865ebe6fa4e", invocationEvent: .shake)
+      
         FirebaseApp.configure()
         return true
     }

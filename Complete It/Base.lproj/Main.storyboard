@@ -84,7 +84,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Osy-a0-3DC"/>
                         <barButtonItem style="plain" systemItem="add" id="OqR-5J-Q0K">
                             <connections>
-                                <segue destination="nk3-7D-LKa" kind="push" id="n3I-8f-GQx"/>
+                                <segue destination="nk3-7D-LKa" kind="show" id="n3I-8f-GQx"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="JPn-ie-Czg"/>
@@ -239,7 +239,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JNX-bw-nnP"/>
-        <segue reference="LEh-cG-Hvs"/>
+        <segue reference="bxB-12-UgI"/>
+        <segue reference="lOq-Gr-DpC"/>
     </inferredMetricsTieBreakers>
 </document>

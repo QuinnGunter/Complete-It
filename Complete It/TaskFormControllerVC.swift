@@ -17,6 +17,8 @@ class TaskFormControllerVC: UIViewController {
     var toDoItems: [NSManagedObject] = []
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+
     var managedObjectContext: NSManagedObjectContext? = nil
     
     @IBOutlet weak var addTaskField: UITextField!
@@ -24,13 +26,14 @@ class TaskFormControllerVC: UIViewController {
     @IBOutlet weak var addTimeField: UIDatePicker!
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-            
+        
+            delegate.validateCloudKitAndSync{}
+
             let taskField = addTaskField.text
             let timeField = addTimeField.date
-        
+    
         //Save to CoreData
-            self.save(task: taskField!, time: timeField)
-        
+            //self.save(task: taskField!, time: timeField)
         
         //Save iCloud
         /*
@@ -49,9 +52,8 @@ class TaskFormControllerVC: UIViewController {
             })
         }
          */
+        
         //Seam Save
-        
-        
             let newTask = Todo(context: context)
            // let taskField = addTaskField.text
             //let timeField = addTimeField.date

@@ -44,32 +44,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         Analytics.logEvent("New_Task_Button_Pressed", parameters: nil)
     }
     
-    func save(task: String, time: Date) {
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let entity =
-            NSEntityDescription.entity(forEntityName: "Todo",
-                                       in: managedContext)!
-        let todo = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
-        todo.setValue(task, forKeyPath: "task")
-        todo.setValue(time, forKey: "time")
-        
-        do {
-            try managedContext.save()
-            toDoItems.append(todo)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -78,7 +52,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         tableView.register(MGSwipeTableCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.rowHeight = 50.0
-        //tableView.layer.cornerRadius = 24
         tableView.backgroundColor = UIColor.white
 
         
@@ -122,40 +95,14 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     
-    func fetchTasks(date: Date) {
-       
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //presicate object for date objecte created by the library
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Todo")
-        
-        
-        let predicate = NSPredicate(format: "time > %@", date as NSDate)
-        
-        fetchRequest.predicate = predicate
-        
-        
-        do {
-            toDoItems = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
+
     func loadDataSeam() {
         
         
         let fetchRequest = Todo.fetchRequest() as NSFetchRequest<Todo>
         
         
-        let sortDescriptor = NSSortDescriptor(key: "time", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: false)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -164,10 +111,13 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             
             self.tableView.reloadData()
             
-        } catch {}
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     func segmentedControlIndexChanged(index: Int) {
+       /*
         let predicate: NSPredicate
         
         if (index == 0) { // due today
@@ -183,6 +133,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         
         toDoItems = tasksMatching(predicate: predicate)
         tableView.reloadData()
+        */
     }
     
     func tasksMatching(predicate: NSPredicate) -> [NSManagedObject] {
@@ -211,31 +162,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //presicate object for date objecte created by the library
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Todo")
-//        fetchRequest.predicate =
-        
-//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"day" ascending:NO];
-        let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: true)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-
-        
-        do {
-            toDoItems = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
+        loadDataSeam()
     }
     
     // MARK: - Table view data source
@@ -245,6 +172,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        /*
         switch customSegmentedControl.selectedSegmentIndex {
         case 0:
             return toDoItems.count
@@ -256,13 +184,15 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             break
         }
         return 0
+        */
+        return toDoItems.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MGSwipeTableCell
         //load cloud seam
-        self.loadDataSeam()
+        //self.loadDataSeam()
         
         //configure left buttons
         cell.leftButtons = [MGSwipeButton(title: "Complete", backgroundColor: #colorLiteral(red: 0.2474539252, green: 0.8585546875, blue: 0.5740827903, alpha: 1)){
