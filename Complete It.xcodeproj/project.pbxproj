@@ -781,6 +781,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = "Complete It/Complete It.entitlements";
 				DEVELOPMENT_TEAM = 35YT2A3NRR;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Complete It/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quintin.Complete-It";
@@ -797,6 +798,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = "Complete It/Complete It.entitlements";
 				DEVELOPMENT_TEAM = 35YT2A3NRR;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Complete It/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.quintin.Complete-It";

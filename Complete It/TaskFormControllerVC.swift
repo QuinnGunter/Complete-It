@@ -10,16 +10,12 @@ import UIKit
 import CoreData
 import Firebase
 import CloudKit
-import Seam3
 
 class TaskFormControllerVC: UIViewController {
-
+    
     var toDoItems: [NSManagedObject] = []
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    let delegate = UIApplication.shared.delegate as! AppDelegate
-
-    var managedObjectContext: NSManagedObjectContext? = nil
     
     @IBOutlet weak var addTaskField: UITextField!
     
@@ -27,16 +23,14 @@ class TaskFormControllerVC: UIViewController {
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         
-            delegate.validateCloudKitAndSync{}
-
-            let taskField = addTaskField.text
-            let timeField = addTimeField.date
-    
-        //Save to CoreData
-            //self.save(task: taskField!, time: timeField)
+        let taskField = addTaskField.text
+        let timeField = addTimeField.date
         
-        //Save iCloud
-        /*
+        //Save to CoreData
+        self.save(task: taskField!, time: timeField)
+        
+        
+        
         if addTaskField?.text != "" {
             let newTask = CKRecord(recordType: "Task")
             newTask["content"] = addTaskField?.text as CKRecordValue?
@@ -51,35 +45,15 @@ class TaskFormControllerVC: UIViewController {
                 }
             })
         }
-         */
         
-        //Seam Save
-            let newTask = Todo(context: context)
-           // let taskField = addTaskField.text
-            //let timeField = addTimeField.date
-            // If appropriate, configure the new managed object.
-            newTask.task = taskField
-            newTask.time = timeField as NSDate
-            // Save the context.
-            do {
-                try context.save()
-                print("Save")
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        
-        
-            Analytics.logEvent("Task_Made", parameters: nil)
-            performSegue(withIdentifier: "toTableView", sender: sender)
+        Analytics.logEvent("Task_Made", parameters: nil)
+        //performSegue(withIdentifier: "toTableView", sender: sender)
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -126,7 +100,7 @@ class TaskFormControllerVC: UIViewController {
             }
         }
     }
-
+    
     func save(task: String, time: Date) {
         
         guard let appDelegate =
@@ -152,11 +126,11 @@ class TaskFormControllerVC: UIViewController {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
 }

@@ -12,7 +12,6 @@ import MGSwipeTableCell
 import Firebase
 import CloudKit
 import AFDateHelper
-import Seam3
 
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate {
     
@@ -21,17 +20,15 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var editbutton: UIBarButtonItem!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var managedObjectContext: NSManagedObjectContext? = nil
-    
     var toDoItems: [NSManagedObject] = []
     
     @IBAction func customSegmentedChanged(_ sender: CustomSegmentedControl) {
         segmentedControlIndexChanged(index: sender.selectedSegmentIndex)
-//        tableView.reloadData()
+        tableView.reloadData()
     }
     
     @IBAction func startEditing(_ sender: UIBarButtonItem) {
-       tableView.isEditing = !tableView.isEditing
+        tableView.isEditing = !tableView.isEditing
         switch tableView.isEditing {
         case true:
             editbutton.title = "Done"
@@ -44,44 +41,67 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         Analytics.logEvent("New_Task_Button_Pressed", parameters: nil)
     }
     
+    func save(task: String, time: Date) {
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Todo",
+                                       in: managedContext)!
+        let todo = NSManagedObject(entity: entity,
+                                   insertInto: managedContext)
+        todo.setValue(task, forKeyPath: "task")
+        todo.setValue(time, forKey: "time")
+        
+        do {
+            try managedContext.save()
+            toDoItems.append(todo)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MGSwipeTableCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.rowHeight = 50.0
+        //tableView.layer.cornerRadius = 24
         tableView.backgroundColor = UIColor.white
-
         
-        //Load Seam
-        self.loadDataSeam()
-        /*
-        let container = CKContainer.default()
-        let privateData = container.privateCloudDatabase
-        
-        
-        let query = CKQuery(recordType: "Task", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
-        
-        privateData.perform(query, inZoneWith: nil) { results, error in
-            if error == nil { // There is no error
-                for task in results! {
-                    let newTask = CKRecord(recordType: "Task")
-                    newTask.content = task["Content"] as! String
-                    newTask.time = task["Time"] as! String
-                    
-                    self.objects.append(newTask)
-                    
-                    DispatchQueue.main.async(execute: { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            }
-            else {
-                print("error query")
-            }
-        }
+        /*iCloud
+         let container = CKContainer.default()
+         let privateData = container.privateCloudDatabase
+         
+         
+         let query = CKQuery(recordType: "Task", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+         privateData.perform(query, inZoneWith: nil) { results, error in
+         if error == nil { // There is no error
+         for task in results! {
+         let newTask = Task
+         newTask.content = task["Content"] as! String
+         newTask.time = task["Time"] as! String
+         
+         self.objects.append(newTask)
+         
+         DispatchQueue.main.async(execute: { () -> Void in
+         self.tableView.reloadData()
+         })
+         }
+         }
+         else {
+         print("error query")
+         }
+         }
          */
         
         if toDoItems.count > 0 {
@@ -95,29 +115,34 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     
-
-    func loadDataSeam() {
+    func fetchTasks(date: Date) {
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //presicate object for date objecte created by the library
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Todo")
         
         
-        let fetchRequest = Todo.fetchRequest() as NSFetchRequest<Todo>
+        let predicate = NSPredicate(format: "time > %@", date as NSDate)
         
+        fetchRequest.predicate = predicate
         
-        let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: false)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            try self.toDoItems = self.context.fetch(fetchRequest)
-            
-            self.tableView.reloadData()
-            
+            toDoItems = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
     func segmentedControlIndexChanged(index: Int) {
-       /*
         let predicate: NSPredicate
         
         if (index == 0) { // due today
@@ -133,7 +158,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         
         toDoItems = tasksMatching(predicate: predicate)
         tableView.reloadData()
-        */
     }
     
     func tasksMatching(predicate: NSPredicate) -> [NSManagedObject] {
@@ -162,7 +186,30 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadDataSeam()
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //presicate object for date objecte created by the library
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Todo")
+        
+        //        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"day" ascending:NO];
+        let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        
+        do {
+            toDoItems = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     // MARK: - Table view data source
@@ -172,7 +219,6 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*
         switch customSegmentedControl.selectedSegmentIndex {
         case 0:
             return toDoItems.count
@@ -184,23 +230,20 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             break
         }
         return 0
-        */
-        return toDoItems.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MGSwipeTableCell
-        //load cloud seam
-        //self.loadDataSeam()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MGSwipeTableCell
+        
         
         //configure left buttons
         cell.leftButtons = [MGSwipeButton(title: "Complete", backgroundColor: #colorLiteral(red: 0.2474539252, green: 0.8585546875, blue: 0.5740827903, alpha: 1)){
             (sender: MGSwipeTableCell!) -> Bool in
-                let lineView = UIView(frame: CGRect(x: 0, y: cell.contentView.bounds.size.height/2, width: cell.contentView.bounds.size.width, height: 5))
-                lineView.backgroundColor = UIColor.lightGray
-                lineView.autoresizingMask = UIViewAutoresizing(rawValue: 0x3f)
-                cell.contentView.addSubview(lineView)
+            let lineView = UIView(frame: CGRect(x: 0, y: cell.contentView.bounds.size.height/2, width: cell.contentView.bounds.size.width, height: 5))
+            lineView.backgroundColor = UIColor.lightGray
+            lineView.autoresizingMask = UIViewAutoresizing(rawValue: 0x3f)
+            cell.contentView.addSubview(lineView)
             return true
             
             }]
@@ -218,9 +261,9 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
                 self.toDoItems.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 //Remove from iCloud
-            
+                
                 print("Convenience callback for swipe buttons!")
-            return true
+                return true
                 }]
         cell.rightSwipeSettings.transition = .drag
         cell.layer.cornerRadius = cell.frame.height/2
@@ -256,7 +299,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
             break
         }
         
-            return cell
+        return cell
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -284,7 +327,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     // MARK: - Table view delegate
-
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
         cell.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
