@@ -104,10 +104,11 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
          }
          */
         
+        
         if toDoItems.count > 0 {
             return
         }
-        
+ 
         self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
         self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .bottom)
         self.navigationController?.toolbar.shadowImage(forToolbarPosition: .bottom)
@@ -182,11 +183,23 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         }
         
         return []
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+       
+        let predicate: NSPredicate
+        let date = NSDate()
+        predicate = NSPredicate(format: "time <= %@", date)
+
+        toDoItems = tasksMatching(predicate: predicate)
+        tableView.reloadData()
+
         
+        
+        
+        /*
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -199,7 +212,8 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Todo")
         
-        //        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"day" ascending:NO];
+       // NSSortDescriptor * sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey,:@"day" ascending:NO];
+        
         let sortDescriptor = NSSortDescriptor(key: "orderPosition", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -210,6 +224,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+        */
     }
     
     // MARK: - Table view data source
